@@ -1,54 +1,82 @@
 define([
     'BasePopup',
-    'Button'
-], function(BasePopup, Button) {
+    'Button',
+    'MessageBox'
+], function(BasePopup, Button, MessageBox) {
     'use strict';
 
     var Page = function() {
         this.popups = [];
 
+        var inst = this;
         this.btnCreateSimplePopup = new Button({
             text: 'Create simple popup',
-            click: this.createAndShowNewPopup.bind(this)
+            click: function() {
+                var popup = inst.createPopup();
+                popup.show().then(function(answer) { console.log(answer); })
+            }
         });
 
         this.btnCreateSimpleModalPopup = new Button({
             text: 'Create simple modal popup',
-            click: this.createAndShowNewPopup.bind(this, true)
+            click: function() {
+                var popup = inst.createPopup();
+                popup.showModal().then(function(answer) { console.log(answer); })
+            }
+        });
+
+        this.btnCreateYesNoCancelMessageBox = new Button({
+            text: 'Create YesNoCancel message box',
+            click: function() {
+                var popup = inst.createYesNoCancelMessageBox();
+                popup.show().then(function(answer) { console.log(popup._getDefaultButtonText(answer)); })
+            }
         });
     }
 
-    Page.prototype.createAndShowNewPopup = function(modal) {
+    Page.prototype.createPopup = function() {
         var popup = new BasePopup({
             title: 'Test Popup Title',
             message: 'Test Popup Message.',
             buttons: [
                 new Button({
-                    text: 'Ok',
+                    text: 'Да',
                     click: function() {
                         popup.hide();
-                        popup.resolve('Ok');
+                        popup.resolve('Да');
                         popup.dispose();
                     }
                 }),
                 new Button({
-                    text: 'No',
+                    text: 'Нет',
                     click: function(resolve, reject) {
                         popup.hide();
-                        popup.resolve('No');
+                        popup.resolve('Нет');
                         popup.dispose();
                     }
                 }),
             ]
         });
 
-        if (modal) {
-            popup.showModal().then(function(answer) { console.log(answer); });
-        } else {
-            popup.show().then(function(answer) { console.log(answer); });
-        }
+        this.popups.push(popup);
+
+        return popup;
+    }
+
+    Page.prototype.createYesNoCancelMessageBox = function() {
+        var popup = new MessageBox({
+            title: 'Test MessageBox Title',
+            message: 'Test MessageBox Message.',
+            buttons: [
+                MessageBox.buttonType.yes,
+                MessageBox.buttonType.no,
+                MessageBox.buttonType.cancel
+            ]
+        });
 
         this.popups.push(popup);
+
+        return popup;
     }
 
     return Page;
