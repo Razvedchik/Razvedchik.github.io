@@ -1,11 +1,66 @@
 <html>
     <head>
         <title>Dynamic Popups</title>
-        <link rel="stylesheet" type="text/css" href="styles/css/popups.css">
+        <script type="text/javascript" src="scripts/require.js"></script>
+        <script type="text/javascript">
+            require.config({
+                baseUrl: "scripts/",
+                waitSeconds: 60,
+                paths: {
+                    jquery: 'jquery-1.9.1',
+    				jqueryui: 'jquery-ui-1.10.4',
+                    knockout: "knockout-3.2.0.debug",
+                },
+                shim: {
+                    jqueryui: ['jquery'],
+                    knockout: {
+                        exports: 'ko'
+                    }
+                }
+            });
+        </script>
     </head>
     <body>
-        <div class="popups">
-
+        <div class="actions">
+            <!-- ko template: { name: btnCreateSimplePopup.templateName, data: btnCreateSimplePopup, afterRender: btnCreateSimplePopup.afterRenger } -->
+            <!-- /ko -->
+            <!-- ko template: { name: btnCreateSimpleModalPopup.templateName, data: btnCreateSimpleModalPopup, afterRender: btnCreateSimpleModalPopup.afterRenger } -->
+            <!-- /ko -->
         </div>
+
+        <script type="text/javascript">
+            require(['knockout', 'utils', 'Page'], function(ko, utils, Page) {
+                utils.loadCss('styles/css/Common.css');
+
+                window.page = new Page();
+                ko.applyBindings(window.page);
+            });
+        </script>
+
+        <!-- Templates -->
+        <script type="text/html" id="BasePopup">
+            <div data-bind="visible: visible">
+                <div class="popupMask" data-bind="visible: isModal()"></div>
+                <div class="popup" data-bind="attr: { id: id }">
+                    <div class="header">
+                        <span class="title" data-bind="text: title"></span>
+                    </div>
+                    <div class="body">
+                        <span class="message" data-bind="text: message"></span>
+                    </div>
+                    <div class="footer" data-bind="foreach: buttons">
+                        <!-- ko template: { name: templateName, data: $data, afterRender: afterRender } -->
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/html" id="Button">
+            <div class="button" data-bind="click: internalClick, attr: { id: id, role: role }, visible: visible, css: { 'disabled': disabled, 'waiting': wait }">
+                <span class="text" data-bind="text: text"></span>
+                <span class="wait"></span>
+            </div>
+        </script>
+
     </body>
 </html>

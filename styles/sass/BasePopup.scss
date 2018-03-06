@@ -1,0 +1,45 @@
+$border-color: rgba(0, 0, 0, 0.3);
+$border-radius: 15px;
+
+.popupMask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2)
+}
+
+.popup {
+    position: fixed;
+    top: 100px;
+    left: 30%;
+
+    min-width: 400px;
+    width: 40%;
+
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    background-color: #f3f3f3;
+
+    .header {
+        padding: 5px 25px;
+        cursor: move;
+
+        .title {
+            font-size: 130%;
+        }
+    }
+
+    .body {
+        min-height: 50px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 5px 15px;
+    }
+
+    .footer {
+        padding: 5px;
+        text-align: center;
+    }
+} 

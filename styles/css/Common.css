@@ -1,0 +1,10 @@
+* {
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+}
+
+.actions {
+  position: fixed;
+  z-index: 1;
+}
+/*# sourceMappingURL=Common.css.map */

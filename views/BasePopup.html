@@ -1,0 +1,15 @@
+<div data-bind="visible: visible">
+    <div class="popupMask" data-bind="visible: isModal()"></div>
+    <div class="popup" data-bind="attr: { id: id }">
+        <div class="header">
+            <span class="title" data-bind="text: title"></span>
+        </div>
+        <div class="body">
+            <span class="message" data-bind="text: message"></span>
+        </div>
+        <div class="footer" data-bind="foreach: buttons">
+            <!-- ko template: { name: templateName, data: $data, afterRender: afterRender } -->
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
